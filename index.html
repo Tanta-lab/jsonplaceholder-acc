@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Utilisateurs et commentaires</title>
+</head>
+<body>
+<main>
+    <h1>Utilisateurs JSONPlaceholder</h1>
+    <!-- Liste des utilisateurs ajoutés -->
+    <ul id="user-list" aria-label="Liste des utilisateurs avec commentaires"></ul>
+</main>
+
+<script>
+    // On récupère <ul> qui contiendra les utilisateurs
+    const userList = document.getElementById("user-list");
+
+    // 1ère requête : on récupère tous les utilisateurs depuis l'API
+    fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json()) // On convertit la réponse en JSON
+        .then(users => {
+            // Pour chaque utilisateur
+            users.forEach(user => {
+                // Création d'une <li> pour afficher le nom et l'email (cliquable)
+                const userLi = document.createElement("li");
+                userLi.innerHTML = `<strong>${user.name}</strong> (<a href="mailto:${user.email}">${user.email}</a>)`;
+
+                // Sous-liste <ul> pour afficher les commentaires de l'utilisateur
+                const commentList = document.createElement("ul");
+                commentList.setAttribute("aria-label", `Commentaires de ${user.name}`); // accessibilité
+
+                // 2ème requête : on récupère les commentaires associés (si postId fait ref à l'id user)
+                fetch(`https://jsonplaceholder.typicode.com/comments?postId=${user.id}`)
+                    .then(response => response.json()) // Conversion en JSON
+                    .then(comments => {
+                        // Affichage des 5 premiers commentaires seulement
+                        comments.slice(0, 5).forEach(comment => {
+                            const commentLi = document.createElement("li");
+                            commentLi.textContent = comment.body;
+                            commentList.appendChild(commentLi); // Ajout de <li> à la liste des commentaires
+                        });
+                    })
+                    .catch(error => {
+                        // Message dans la liste des comments si erreurs
+                        const errorLi = document.createElement("li");
+                        errorLi.textContent = "Erreur lors du chargement des commentaires.";
+                        commentList.appendChild(errorLi);
+                    });
+
+                // Ajout de la sous-liste des commentaires au <li> de l'utilisateur
+                userLi.appendChild(commentList);
+                // Ajout du <li> complet à la liste principale des utilisateurs
+                userList.appendChild(userLi);
+            });
+        })
+        .catch(error => {
+            // Message d'erreur en cas d'echec de la requete
+            console.error("Erreur :", error);
+            userList.innerHTML = "<li>Erreur lors du chargement des utilisateurs.</li>";
+        });
+</script>
+</body>
+</html>

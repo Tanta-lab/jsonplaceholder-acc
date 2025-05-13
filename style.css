@@ -1,0 +1,73 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f6f6f6;
+    margin: 40px;
+    color: #333;
+}
+
+/* Liste des utilisateurs */
+#user-list {
+    padding: 0;
+    list-style: none;
+}
+
+/* Chaque utilisateur */
+#user-list > li {
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+}
+
+/* Nom de l’utilisateur */
+#user-list > li strong {
+    font-size: 1.1rem;
+    display: block;
+    color: #2c3e50;
+}
+
+/* Email en lien */
+#user-list > li a {
+    font-size: 0.9rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+#user-list > li a:hover {
+    text-decoration: underline;
+}
+
+/* Liste des commentaires */
+#user-list > li ul {
+    margin-top: 10px;
+    padding-left: 0;
+    list-style: none;
+}
+
+/* Un commentaire */
+#user-list > li ul li {
+    background-color: #f1f1f1;
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+/* Boutons fictifs (icônes) */
+.comment-actions {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #888;
+    display: flex;
+    gap: 10px;
+}
+
+.comment-actions span {
+    cursor: pointer;
+}
+
+.comment-actions span:hover {
+    text-decoration: underline;
+}
